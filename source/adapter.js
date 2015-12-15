@@ -1041,6 +1041,9 @@ if (navigator.mozGetUserMedia) {
 
         element.parentNode.insertBefore(frag, element);
         frag = document.getElementById(elementId);
+
+        AdapterJS.forwardEventHandlers(frag, element, Object.getPrototypeOf(element));
+        
         frag.width = width;
         frag.height = height;
         element.parentNode.removeChild(element);
@@ -1055,7 +1058,6 @@ if (navigator.mozGetUserMedia) {
         element.setStreamId(streamId);
       }
       var newElement = document.getElementById(elementId);
-      AdapterJS.forwardEventHandlers(newElement, element, Object.getPrototypeOf(element));
 
       return newElement;
     };
@@ -1093,7 +1095,15 @@ if (navigator.mozGetUserMedia) {
               destElem.addEventListener(propName.slice(2), srcElem[propName], false)
             }
           } else {
-            //TODO (http://jira.temasys.com.sg/browse/TWP-328) Forward non-event properties ?
+            if(srcElem[propName] != null) {
+              if(typeof(srcElem[propName]) === 'function') {
+                if(destElem[propName] == null) {
+                  destElem[propName] = srcElem[propName];
+                }
+              } else {
+                destElem[propName] = srcElem[propName];
+              }
+            }
           }
         }
       }
