@@ -353,11 +353,11 @@ AdapterJS.renderNotificationBar = function (text, buttonText, buttonLink, openNe
             clearInterval(pluginInstallInterval);
             AdapterJS.WebRTCPlugin.defineWebRTCInterface();
           },
-          function() { 
+          function() {
             // still no plugin detected, nothing to do
           });
       } , 500);
-    });   
+    });
 
     // On click on Cancel
     AdapterJS.addEvent(c.document.getElementById('cancel'), 'click', function(e) {
@@ -535,8 +535,8 @@ webrtcDetectedVersion = null;
 // Check for browser types and react accordingly
 if ( navigator.mozGetUserMedia
   || navigator.webkitGetUserMedia
-  || (navigator.mediaDevices 
-    && navigator.userAgent.match(/Edge\/(\d+).(\d+)$/)) ) { 
+  || (navigator.mediaDevices
+    && navigator.userAgent.match(/Edge\/(\d+).(\d+)$/)) ) {
 
   ///////////////////////////////////////////////////////////////////
   // INJECTION OF GOOGLE'S ADAPTER.JS CONTENT
@@ -548,7 +548,7 @@ if ( navigator.mozGetUserMedia
 
   ///////////////////////////////////////////////////////////////////
   // EXTENSION FOR CHROME, FIREFOX AND EDGE
-  // Includes legacy functions 
+  // Includes legacy functions
   // -- createIceServer
   // -- createIceServers
   // -- MediaStreamTrack.getSources
@@ -574,7 +574,7 @@ if ( navigator.mozGetUserMedia
 
     createIceServer = function (url, username, password) {
       console.warn('createIceServer is deprecated. It should be replaced with an application level implementation.');
-      
+
       var iceServer = null;
       var url_parts = url.split(':');
       if (url_parts[0].indexOf('stun') === 0) {
@@ -616,7 +616,7 @@ if ( navigator.mozGetUserMedia
   } else if ( navigator.webkitGetUserMedia ) {
     createIceServer = function (url, username, password) {
       console.warn('createIceServer is deprecated. It should be replaced with an application level implementation.');
-      
+
       var iceServer = null;
       var url_parts = url.split(':');
       if (url_parts[0].indexOf('stun') === 0) {
@@ -668,7 +668,7 @@ if ( navigator.mozGetUserMedia
     };
   }
 
-  // Need to override attachMediaStream and reattachMediaStream 
+  // Need to override attachMediaStream and reattachMediaStream
   // to support the plugin's logic
   attachMediaStream_base = attachMediaStream;
   attachMediaStream = function (element, stream) {
@@ -949,7 +949,7 @@ if ( navigator.mozGetUserMedia
     window.navigator.getUserMedia = window.getUserMedia;
 
     // Defined mediaDevices when promises are available
-    if ( !navigator.mediaDevices 
+    if ( !navigator.mediaDevices
       && typeof Promise !== 'undefined') {
       navigator.mediaDevices = {getUserMedia: requestUserMedia,
                                 enumerateDevices: function() {
@@ -1154,3 +1154,6 @@ if ( navigator.mozGetUserMedia
   // END OF WEBRTC PLUGIN SHIM
   ///////////////////////////////////////////////////////////////////
 }
+
+AdapterJS.attachMediaStream = attachMediaStream;
+AdapterJS.reattachMediaStream = reattachMediaStream;
